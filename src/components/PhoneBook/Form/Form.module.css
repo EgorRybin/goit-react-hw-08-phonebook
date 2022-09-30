@@ -1,0 +1,27 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.input {
+  margin-bottom: 30px;
+  width: 50vw;
+  justify-content: space-between;
+}
+.nameFirst {
+  margin-right: 83px;
+}
+.name {
+  margin-right: 20px;
+}
+.button {
+  width: 70px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(183, 168, 197);
+  transition: 250ms;
+}
+.button:hover {
+  background-color: rgb(219, 130, 130);
+  color: rgb(44, 42, 42);
+}
