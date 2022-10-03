@@ -33,13 +33,3 @@ ContactList.propTypes = {
   deleteContact: PropTypes.func.isRequired,
 };
 
-ContactList.propTypes = {
-  contactsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-      })
-    ),
-    deleteContact: PropTypes.func.isRequired
-}
