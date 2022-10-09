@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
 
 import s from './Form.module.css';
+import { getContacts } from 'components/redux/selectors';
+import { addContact } from 'components/redux/contactsSlice';
 
-export const Form = ({ submitData }) => {
+export const Form = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const id = nanoid();
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { value } = e.target;
@@ -16,10 +22,17 @@ export const Form = ({ submitData }) => {
       setNumber(value);
     }
   };
-
   const handleSubmit = e => {
     e.preventDefault();
-    submitData({ name, number });
+    const chekName = contacts.filter(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
+    if (chekName.length > 0) {
+      alert('Такий контакт вже є...');
+      return;
+    }
+
+    dispatch(addContact({ name, number, id }));
     reset();
   };
 
@@ -59,8 +72,4 @@ export const Form = ({ submitData }) => {
       </button>
     </form>
   );
-};
-
-Form.propTypes = {
-  submitData: PropTypes.func.isRequired,
 };
