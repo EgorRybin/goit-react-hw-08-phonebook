@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import {
   persistStore,
@@ -15,24 +15,26 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import { filterReducer } from './filterSlice';
 import { contactsReducer } from './contactsSlice';
 
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-// };
+const persistConfig = {
+  key: 'root',
+  storage,
+};
 
-// const persistedReducer = persistReducer(persistConfig, contactsReducer);
-
-export const store = configureStore({
-  reducer: {
-    filter: filterReducer,
-    contacts: contactsReducer,
-  },
-//   middleware: gedDefaultMiddlewares =>
-//     gedDefaultMiddlewares({
-//       serializableCheck: {
-//         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-//       },
-//     }),
+const rootReducer = combineReducers({
+  filter: filterReducer,
+  contacts: contactsReducer,
 });
 
-// export const persistor = persistStore(store);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: gedDefaultMiddlewares =>
+    gedDefaultMiddlewares({
+      serializableCheck: {
+        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);
