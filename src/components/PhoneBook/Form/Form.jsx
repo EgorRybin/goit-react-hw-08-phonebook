@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
 
 import s from './Form.module.css';
 import { getContacts } from 'components/redux/selectors';
-import { addContact } from 'components/redux/contactsSlice';
+import { addContact } from 'components/redux/operations';
 
 export const Form = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const id = nanoid();
+  const [phone, setNumber] = useState('');
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
@@ -18,7 +16,7 @@ export const Form = () => {
     if (e.target.name === 'name') {
       setName(value);
     }
-    if (e.target.name === 'number') {
+    if (e.target.name === 'phone') {
       setNumber(value);
     }
   };
@@ -32,7 +30,7 @@ export const Form = () => {
       return;
     }
 
-    dispatch(addContact({ name, number, id }));
+    dispatch(addContact({ name, phone }));
     reset();
   };
 
@@ -59,11 +57,11 @@ export const Form = () => {
         <span className={s.name}>Phone number</span>
         <input
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={number}
+          value={phone}
           onChange={handleChange}
         />
       </label>

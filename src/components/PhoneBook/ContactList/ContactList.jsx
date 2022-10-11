@@ -1,14 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-
+import { fetchContacts, deleteContact } from 'components/redux/operations';
 import { getContacts, getFilter } from 'components/redux/selectors';
-import { deleteContact } from 'components/redux/contactsSlice';
 import s from './ContactList.module.css';
 
 const ContactList = () => {
   const contacts = useSelector(getContacts);
   const filterWord = useSelector(getFilter);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const deleteCont = id => {
     dispatch(deleteContact(id));
@@ -22,9 +26,9 @@ const ContactList = () => {
 
   return (
     <ul className={s.list}>
-      {filteredContacts.map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, phone }) => (
         <li className={s.item} key={id}>
-          {name} {number}
+          {name} {phone}
           <button
             className={s.button}
             type="button"
