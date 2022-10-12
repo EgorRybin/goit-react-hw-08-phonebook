@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import s from './Form.module.css';
-import { getContacts } from 'components/redux/selectors';
-import { addContact } from 'components/redux/operations';
+import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 export const Form = () => {
   const [name, setName] = useState('');
@@ -22,10 +22,10 @@ export const Form = () => {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    const chekName = contacts.filter(
+    const chekName = contacts.find(
       el => el.name.toLowerCase() === name.toLowerCase()
     );
-    if (chekName.length > 0) {
+    if (chekName) {
       alert('Такий контакт вже є...');
       return;
     }

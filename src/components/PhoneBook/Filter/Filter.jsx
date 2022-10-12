@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 
 import s from './Filter.module.css';
-import { getFilter } from 'components/redux/selectors';
-import { setFilter } from 'components/redux/filterSlice';
+import { getFilter } from 'redux/selectors';
+import { setFilter } from 'redux/filterSlice';
 
 const Filter = () => {
   const filterWord = useSelector(getFilter);
