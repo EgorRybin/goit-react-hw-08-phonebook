@@ -2,17 +2,17 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import s from './Filter.module.css';
 import { getFilter } from 'redux/selectors';
-import { setFilter } from 'redux/filterSlice';
+import { setFilter } from 'redux/contactsSlice';
 
 const Filter = () => {
   const filterWord = useSelector(getFilter);
-   const dispatch = useDispatch();
-  
-    const handleChange = e => {
-      const { value } = e.target;
-      dispatch(setFilter(value))
-      
-      setFilter(value);  
+  const dispatch = useDispatch();
+
+  const handleChange = e => {
+    const { value } = e.target;
+    dispatch(setFilter(value));
+
+    setFilter(value);
   };
 
   return (
@@ -32,4 +32,3 @@ const Filter = () => {
 };
 
 export default Filter;
-
