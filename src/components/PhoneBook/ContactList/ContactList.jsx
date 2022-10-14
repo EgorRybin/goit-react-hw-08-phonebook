@@ -13,6 +13,7 @@ const ContactList = () => {
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
+
   const deleteCont = id => {
     dispatch(deleteContact(id));
   };

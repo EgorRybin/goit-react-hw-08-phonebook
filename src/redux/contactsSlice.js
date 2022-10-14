@@ -45,10 +45,11 @@ const contactsSlice = createSlice({
 
     [deleteContact.pending]: handlePending,
     [deleteContact.fulfilled](state, action) {
+      console.log(action);
       state.contacts.isLoading = false;
       state.contacts.error = null;
       state.contacts.items = state.contacts.items.filter(
-        el => el.id !== action.payload.id
+        el => el.id !== action.payload
       );
     },
     [deleteContact.rejected]: handleRejected,
