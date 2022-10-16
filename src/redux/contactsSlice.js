@@ -19,6 +19,7 @@ const contactsSlice = createSlice({
       error: null,
     },
     filter: '',
+    
   },
 
   reducers: {
@@ -45,7 +46,6 @@ const contactsSlice = createSlice({
 
     [deleteContact.pending]: handlePending,
     [deleteContact.fulfilled](state, action) {
-      console.log(action);
       state.contacts.isLoading = false;
       state.contacts.error = null;
       state.contacts.items = state.contacts.items.filter(
