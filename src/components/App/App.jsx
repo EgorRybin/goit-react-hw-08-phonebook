@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import s from './App.module.css';
+import { getIsLoggedIn } from './../../redux/auth/auth-selector';
 import { getIsLoading } from 'redux/selectors';
 import { fetchCurrentUser } from 'redux/auth/auth-operatipons';
 import FormRegister from 'components/Auth/FormRegister';
@@ -13,18 +13,12 @@ import PriviteRote from 'components/PrivateRote/PrivateRote';
 import PublicRote from 'components/PublicRote/PublicRote';
 import { getIsRefreshing } from './../../redux/auth/auth-selector';
 
-// import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
-// import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
-// import IconButton from '@mui/material/IconButton';
-// import MenuIcon from '@mui/icons-material/Menu';
-
 export const App = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getIsLoading);
   const isRefreshing = useSelector(getIsRefreshing);
+  const isLoggedIn = useSelector(getIsLoggedIn);
+
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
@@ -32,10 +26,7 @@ export const App = () => {
   return (
     !isRefreshing && (
       <>
-
-              <AppBarr />
- 
-
+        <AppBarr />
         <Routes>
           <Route
             index
@@ -61,8 +52,9 @@ export const App = () => {
               </PriviteRote>
             }
           />
+          <Route path="*" element={isLoggedIn ? <Contacts /> : <FormLogin />} />
         </Routes>
-        <div className={s.loading}>{isLoading && <b>Зараз все буде...</b>}</div>
+        <div>{isLoading && <b>Зараз все буде...</b>}</div>
       </>
     )
   );
