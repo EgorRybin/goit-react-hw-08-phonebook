@@ -5,7 +5,7 @@ import {
   register,
   logOut,
   fetchCurrentUser,
-} from 'redux/auth/auth-operatipons';
+} from './auth-operatipons';
 
 const initialState = {
   user: { name: null, email: null },
@@ -47,4 +47,4 @@ const authSlice = createSlice({
   },
 });
 
-export const authReduser = authSlice.reducer;
+export const authReducer = authSlice.reducer;

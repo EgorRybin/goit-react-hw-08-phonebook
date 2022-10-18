@@ -1,8 +1,5 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { getContacts } from 'redux/contacts/selectors';
-import { addContact } from 'redux/contacts/operations';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,15 +9,36 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import s from './Modal.module.css';
+
 const theme = createTheme();
 
-const FormContacts = () => {
+const modalRoot = document.querySelector('#modal-root');
+
+export const Modal = ({ toogleModal }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
 
-  const handleChange = e => {
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  });
+
+  const onOverlayClick = e => {
+    if (e.target === e.currentTarget) {
+      toogleModal();
+    }
+  };
+
+  const onKeyDown = e => {  
+    if (e.code === 'Escape') {
+      toogleModal();
+    }
+    };
+    
+     const handleChange = e => {
     const { value } = e.target;
     if (e.target.name === 'name') {
       setName(value);
@@ -29,28 +47,16 @@ const FormContacts = () => {
       setNumber(value);
     }
   };
-
   const handleSubmit = e => {
-    e.preventDefault();
-    const chekName = contacts.find(
-      el => el.name.toLowerCase() === name.toLowerCase()
-    );
-    if (chekName) {
-      alert('Такий контакт вже є...');
-      return;
-    }
-
-    dispatch(addContact({ name, number }));
-    reset();
+      e.preventDefault();
+      console.log('submit');
+    // dispatch(addContact({ name, number }));
+    // reset();
   };
-
-  const reset = () => {
-    setName('');
-    setNumber('');
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
+  return createPortal(
+    <div className={s.Overlay} onClick={onOverlayClick}>
+          <div className={s.Modal}>
+              <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -104,13 +110,16 @@ const FormContacts = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              add contact
+              change contact
             </Button>
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
+      </div>
+    </div>,
+    modalRoot
   );
 };
 
-export default FormContacts;
+export default Modal;

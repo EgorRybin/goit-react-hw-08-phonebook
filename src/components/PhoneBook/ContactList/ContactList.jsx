@@ -1,8 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import {
+  useEffect,
+  // useState
+} from 'react';
 
-import { fetchContacts, deleteContact } from 'redux/operations';
-import { getContacts, getFilter } from 'redux/selectors';
+import {
+  fetchContacts, deleteContact,
+  // changeContact
+} from 'redux/contacts/operations';
+import { getContacts, getFilter } from 'redux/contacts/selectors';
+// import Modal from 'components/Modal/Modal';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -24,6 +31,7 @@ const theme = createTheme({
 });
 
 const ContactList = () => {
+  // const [isModal, setIsModal] = useState(false);
   const contacts = useSelector(getContacts);
   const filterWord = useSelector(getFilter);
   const dispatch = useDispatch();
@@ -36,13 +44,22 @@ const ContactList = () => {
     dispatch(deleteContact(id));
   };
 
+  // const changeCont = id => {
+  //   dispatch(changeContact(id));
+  // }
+
   const filteredContacts = filterWord
     ? contacts.filter(el =>
         el.name.toLowerCase().includes(filterWord.toLowerCase())
       )
     : contacts;
 
+  // const toogleModal = () => {
+  //   setIsModal(!isModal);
+  // };
+  
   return (
+    <>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -55,11 +72,11 @@ const ContactList = () => {
           }}
         >
           <ul>
-            {filteredContacts.map(({ id, name, phone }) => (
+            {filteredContacts.map(({ id, name, number }) => (
               <Typography component="h1" variant="h5" key={id}>
                 <li key={id}>
                   <span style={{ marginRight: '16px' }}>
-                    {name} {phone}
+                    {name} {number}
                   </span>
                   <Button
                     variant="outlined"
@@ -69,7 +86,16 @@ const ContactList = () => {
                     onClick={() => deleteCont(id)}
                   >
                     delete
-                  </Button>
+                  </Button>   
+                  {/* <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<DeleteIcon />}
+                    type="button"
+                    onClick={toogleModal}
+                  >
+                    change
+                  </Button>   */}
                 </li>
               </Typography>
             ))}
@@ -77,6 +103,8 @@ const ContactList = () => {
         </Box>
       </Container>
     </ThemeProvider>
+      {/* {isModal && <Modal toogleModal={toogleModal} />} */}
+    </>
   );
 };
 export default ContactList;
