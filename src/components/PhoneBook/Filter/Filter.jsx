@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getFilter } from 'redux/contacts/selectors';
-import { setFilter } from 'redux/contactsSlice';
+import { setFilter } from 'redux/contacts/contactsSlice';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
